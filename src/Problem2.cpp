@@ -59,7 +59,8 @@ Difficulty : Medium +
 */
 #include <stdlib.h>
 #include <stdio.h>
-
+struct node* sortedListToBSTrecur(struct Node **head1, int n);
+struct node_dll* sortedListToBST(struct node *head);
 struct node_dll{
 	int data;
 	struct node_dll *next;
@@ -72,5 +73,35 @@ struct node{
 };
 
 int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+	if (head == NULL || root == NULL)
+		return -1;
+	struct node *head1 = (struct node *)malloc(sizeof(struct node));
+	treeToDoublyList(root, prev, head1);
+	if (head1 == head)
+		return 1;
+	else return 0;
 }
+
+
+	void treeToDoublyList(node *root, node *& prev, node *& head1) {
+		treeToDoublyList(root->left, prev, head1);
+
+		root->left = prev;
+		if (prev)
+			prev->right = root;
+		else
+			head1 = root;
+
+		node *right = root->right;
+		head1->left = root;
+		root->right = head1;
+
+		prev = root;
+		treeToDoublyList(right, prev, head1);
+	}
+	 struct node* treeToDoublyList(node *root) {
+		node *prev = NULL;
+		node *head1 = NULL;
+		treeToDoublyList(root, prev, head1);
+		return head1;
+	}

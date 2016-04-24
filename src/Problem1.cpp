@@ -43,6 +43,8 @@ Difficulty : Easy
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+void in_order_traversal(struct node *p);
+void in_order_search(struct node *p, int val);
 
 struct node{
 	int data;
@@ -51,6 +53,43 @@ struct node{
 };
 
 
-int get_missing_value(struct node *root,int n){
-    return -1;
+int get_missing_value(struct node *root, int n)
+{
+	if (n == 0 || n > 10000 || n < -10000 || root == NULL)
+		return -1;
+	int i, val;
+	int flag=0;
+    in_order_traversal(root);
+	for (i = 0; i <= n; i++)
+	{
+		val = i;
+		in_order_search(root, val);
+	}
+	if (flag == 0)
+		return val;
 }
+		
+	void in_order_traversal(struct node *p)
+	{
+		if (!p)
+		{
+			return;
+		}
+		in_order_traversal(p->left);
+		printf("%d->", p->data);
+		in_order_traversal(p->right);
+	}
+
+		void in_order_search(struct node *p, int val)
+		{
+			if (!p)
+			{
+				return ;
+			}
+			in_order_search(p->left, val);
+			int flag;
+			if (p->data != val)
+				flag = 1;
+			else flag = 0;
+			in_order_search(p->right, val);
+		}
